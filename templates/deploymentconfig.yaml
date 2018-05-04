@@ -1,0 +1,21 @@
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: {{ .Values.name | quote }}
+spec:
+  template:
+    metadata:
+      labels:
+        deploymentConfig: {{ .Values.name | quote }}
+    spec:
+      containers:
+        - name: {{ .Values.name | quote }}
+          image: {{ .Values.image | quote }}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+  replicas: 1
+  selector:
+    deploymentConfig: {{ .Values.name | quote }}
+  stategy:
+    type: recreate
